@@ -1,38 +1,42 @@
 import cv2
 import random
+import os
+from PIL import Image 
+from PIL import ImageFilter
 
 
-def redshift(imagename, connum):
+srchstr =  "C:\\Users\\mysti\\Coding\\ImageConversion\\static"
 
-    r = imagename
+contenttot= []
+
+for subdir, dirs, files in os.walk(srchstr):
+    for file in files:
+        filepath = subdir + os.sep + file
+
+        if  filepath.endswith(".jpg"):
+
+            tim = os.path.getctime(filepath)
+
+            contenttot.append(filepath)
+
+for elem in contenttot:
+
+    img = cv2.imread(elem)
+
+    r = img
     r[:, :, 0] = 0
     r[:, :, 1] = 0
 
-    outstr = "imgh" + str(connum) + ".jpg"
+    cv2.imwrite(elem, r)
+    
+    imag = Image.open(elem)
 
-    cv2.imwrite(outstr, r)
+    ranrad = random.randrange(15,35)
 
-    return
+    b_image = imag.filter(ImageFilter.GaussianBlur(radius=ranrad))
 
-def blueshift(imagename, connum):
+    b_image.show()
 
-    b = imagename
-    b[:, :, 1] = 0
-    b[:, :, 2] = 0
+ 
 
-    outstr = "imgh" + str(connum) + ".jpg"
 
-    cv2.imwrite(outstr, b)
-
-    return
-
-img = cv2.imread('image.jpg')
-
-for connum in range(12):
-    ranhue = random.randrange(9)
-    if ranhue < 4:
-        x = grayshift(img, connum)
-    if ranhue > 3 and ranhue < 7:
-        x = redshift(img, connum)
-    if ranhue > 7:
-        x = blueshift(img, connum)
