@@ -82,9 +82,9 @@ for elem in finlst:
     r[:, :, colval] = 0
     r[:, :, 1] = 0
 
-    cv2.imwrite(elem, r)
+    cv2.imwrite("image.jpg", r)
     
-    imag = Image.open(elem)
+    imag = Image.open("image.jpg")
 
     ranrad = random.randrange(15,35)
 
